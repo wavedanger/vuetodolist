@@ -5,11 +5,10 @@
             <input type="text" v-model="newNames" @keyup.enter="onEnter">
         <button @click="onEnter">添加</button>
        </div>
-        <ul  v-for="item in items">
-        <li>
-            <span v-bind:class="{check:item.check}" v-on:click="change(item)">{{item.name}}</span>
-            
-            <span @click="delName">删除</span>
+        <ul  v-for="(item,index) in items">
+        <li v-bind:id="index">
+        <span v-bind:class="{check:item.check}" v-on:click="change(item)">{{item.name}}</span>    
+         <span v-on:click="delName">删除</span>
         </li>
         
         </ul>
@@ -40,11 +39,15 @@ export default {
           
         },
         onEnter(){
-            this.items.push({name:this.newNames,check:false});
-            console.log(this.newNames);
+           if(this.newNames){
+                this.items.push({name:this.newNames,check:false})
+                console.log(this.newNames)
+           }else{
+               alert("不能为空！");
+           }
         },
          delName(e){
-            var id=e.target.offsetParent.id
+            var id=e.target.parentNode.id
             this.items.splice(id,1)
         }
     }
